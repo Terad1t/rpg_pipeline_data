@@ -1,0 +1,6 @@
+generator/*
+.env
+config/*
+data_log/*
+data/*
+logs/*

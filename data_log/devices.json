@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "username": "terad1t",
+        "device_id": "0aa21c15-7dd8-4ae8-a9c5-fa658588b221",
+        "created_at": "2026-06-10T09:01:31",
+        "player_client": "Discord Web"
+    },
+    {
+        "id": 2,
+        "username": "nazuk",
+        "device_id": "1ee4ba07-50db-42cb-802b-ac26d546a645",
+        "created_at": "2026-01-09T10:33:48",
+        "player_client": "Discord Desktop"
+    },
+    {
+        "id": 3,
+        "username": "HawkDevv",
+        "device_id": "69d35fb3-3a67-4e97-b4b2-00db8fb639be",
+        "created_at": "2026-01-06T23:13:04",
+        "player_client": "Discord Desktop"
+    },
+    {
+        "id": 4,
+        "username": "Wumpus",
+        "device_id": "3fbbbd67-c466-4d5e-b122-626f4589c666",
+        "created_at": "2026-04-23T13:40:13",
+        "player_client": "Discord Desktop"
+    },
+    {
+        "id": 5,
+        "username": "Vigod",
+        "device_id": "317820e3-6e3a-47df-80ea-99afc2765044",
+        "created_at": "2026-05-31T11:28:25",
+        "player_client": "Discord Desktop"
+    }
+]

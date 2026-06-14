@@ -1,0 +1,32 @@
+[
+    {
+        "id": 1,
+        "name": "terad1t",
+        "email": "tutu.alvesaraujo@gmail.com",
+        "device_id": "0aa21c15-7dd8-4ae8-a9c5-fa658588b221"
+    },
+    {
+        "id": 2,
+        "name": "nazuk",
+        "email": "nazukgamer123@gmail.com",
+        "device_id": "1ee4ba07-50db-42cb-802b-ac26d546a645"
+    },
+    {
+        "id": 3,
+        "name": "HawkDevv",
+        "email": "HawkDevv__@discord.com",
+        "device_id": "69d35fb3-3a67-4e97-b4b2-00db8fb639be"
+    },
+    {
+        "id": 4,
+        "name": "Wumpus",
+        "email": "support@discord.com",
+        "device_id": "3fbbbd67-c466-4d5e-b122-626f4589c666"
+    },
+    {
+        "id": 5,
+        "name": "Vigod",
+        "email": "VigoddDevv__@discord.com",
+        "device_id": "317820e3-6e3a-47df-80ea-99afc2765044"
+    }
+]

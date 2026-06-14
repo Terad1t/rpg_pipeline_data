@@ -30,6 +30,13 @@ load_dotenv(env_path)
 def rpg_pipeline():
 
     @task
+    def start_api():
+        import subprocess
+        import time
+        subprocess.Popen(["python", "/opt/airflow/generator/app.py"])
+        time.sleep(3)
+
+    @task
     def extract():
         data = extract_all()
         return data
@@ -56,28 +63,35 @@ def rpg_pipeline():
 
         bucket_name = os.getenv('GCS_BUCKET')
         df = pd.read_parquet('/opt/airflow/data/rpg_data.parquet')
+        print(df.columns.tolist())
 
-        # Monta star schema
         dim_user = df[['id', 'name', 'email']].drop_duplicates().rename(columns={'id': 'user_id'})
+
         dim_character = df[['character_id', 'character_name', 'character_created_at']].drop_duplicates()
-        dim_device = df[['device_id', 'player_client']].drop_duplicates()
+
+        dim_device = df[['device_id_x', 'player_client']].drop_duplicates().rename(columns={'device_id_x': 'device_id'})
+
         dim_date = df[['character_created_at']].drop_duplicates().rename(columns={'character_created_at': 'date'})
-        dim_date['date']     = pd.to_datetime(dim_date['date'])
-        dim_date['year']     = dim_date['date'].dt.year
-        dim_date['month']    = dim_date['date'].dt.month
-        dim_date['day']      = dim_date['date'].dt.day
-        dim_date['weekday']  = dim_date['date'].dt.day_name()
+        dim_date['date']    = pd.to_datetime(dim_date['date'])
+        dim_date['year']    = dim_date['date'].dt.year
+        dim_date['month']   = dim_date['date'].dt.month
+        dim_date['day']     = dim_date['date'].dt.day
+        dim_date['weekday'] = dim_date['date'].dt.day_name()
         dim_date.insert(0, 'date_id', range(1, len(dim_date) + 1))
 
-        fact = df[['id', 'character_id', 'device_id', 'character_created_at', 'player_client']].copy()
-        fact = fact.rename(columns={'id': 'user_id', 'character_created_at': 'created_at'})
+        fact = df[['id', 'character_id', 'device_id_x', 'character_created_at', 'player_client']].copy()
+        fact = fact.rename(columns={
+            'id': 'user_id',
+            'device_id_x': 'device_id',
+            'character_created_at': 'created_at'
+        })
         fact.insert(0, 'activity_id', range(1, len(fact) + 1))
 
         tables = {
-            'gold/dim_user.csv':        dim_user,
-            'gold/dim_character.csv':   dim_character,
-            'gold/dim_device.csv':      dim_device,
-            'gold/dim_date.csv':        dim_date,
+            'gold/dim_user.csv':             dim_user,
+            'gold/dim_character.csv':        dim_character,
+            'gold/dim_device.csv':           dim_device,
+            'gold/dim_date.csv':             dim_date,
             'gold/fact_player_activity.csv': fact,
         }
 
@@ -90,7 +104,9 @@ def rpg_pipeline():
             blob.upload_from_string(csv_bytes, content_type='text/csv')
             print(f"Enviado: gs://{bucket_name}/{blob_name} ({len(table_df)} linhas)")
 
+    api = start_api()
     data = extract()
+    api >> data
     transform(data) >> load() >> gold_to_gcs()
 
 rpg_pipeline()

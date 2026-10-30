@@ -16,10 +16,6 @@ password = os.getenv('DB_PASSWORD')
 database = os.getenv('DB_DATABASE')
 host = os.getenv('DB_HOST')
 
-print("USER:", user)
-print("PASSWORD:", password)
-print("DATABASE:", database)
-print("HOST:", host)
 
 def get_engine():
     logging.info(f"Conectando em {host}:5432/{database}")
